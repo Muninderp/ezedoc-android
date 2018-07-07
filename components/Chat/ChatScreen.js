@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,8 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import LoadingIndicator from "../Shared/LoadingIndicator";
 import { appThemeColor } from "../../AppGlobalConfig";
 import Dimensions from "Dimensions";
-import { URL_CONFIG } from "../../AppUrlConfig";
-import NavigationActions from "react-navigation/src/NavigationActions";
-import { appMessages } from "../../AppGlobalMessages";
 const sendBtnIcon = require("../../Images/send-message.png");
 const sendBtnIconDisabled = require("../../Images/send-message-disabled.png");
 const DEVICE_WIDTH = Dimensions.get("window").width;

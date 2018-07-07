@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "430074502193",
-    "firebase_url": "https://ezdoc2018.firebaseio.com",
-    "project_id": "ezdoc2018",
-    "storage_bucket": "ezdoc2018.appspot.com"
+    "project_number": "807246994678",
+    "firebase_url": "https://ezdoc-209118.firebaseio.com",
+    "project_id": "ezdoc-209118",
+    "storage_bucket": "ezdoc-209118.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:430074502193:android:d8ceabaaa1071536",
+        "mobilesdk_app_id": "1:807246994678:android:d8ceabaaa1071536",
         "android_client_info": {
           "package_name": "com.ezdoc"
         }
       },
       "oauth_client": [
         {
-          "client_id": "430074502193-as4hn8hfcq3v4mk7pnro0d15nbp6i2rp.apps.googleusercontent.com",
+          "client_id": "807246994678-kc2dljqufnrndukofgp62tm117gder1r.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAA_Ofs0bPrmbfrmO5zNuuE0ENlWgfH0HQ"
+          "current_key": "AIzaSyAzVUy3NaPQTBdd46ScVVlTa7LlxEtRA54"
         }
       ],
       "services": {

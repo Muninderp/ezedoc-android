@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -13,10 +13,9 @@ import {
 import LoadingIndicator from "../Shared/LoadingIndicator";
 import { appThemeColor } from "../../AppGlobalConfig";
 import Dimensions from "Dimensions";
-import { URL_CONFIG } from "../../AppUrlConfig";
-import NavigationActions from "react-navigation/src/NavigationActions";
 import { appMessages } from "../../AppGlobalMessages";
-
+import { registerPatient } from "../../AppGlobalAPIs";
+const storageServices = require("../Shared/Storage.js");
 const DEVICE_WIDTH = Dimensions.get("window").width;
 const DEVICE_HEIGHT = Dimensions.get("window").height;
 const MARGIN = 40;
@@ -92,40 +91,53 @@ export default class AddPatientScreen extends Component {
       gender: this.state.gender
     };
 
-    let loggedInUserIdPromise = storageServices.readMultiple([
+    let loggedInUserPromise = storageServices.readMultiple([
       "loggedInUserId",
       "auth-api-key",
-      "x-csrf-token"
+      "x-csrf-token",
+      "loggedInUserData"
     ]);
 
-    loggedInUserPromise.then(value => {
-      let headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "auth-api-key": JSON.parse(value[1]),
-        "x-csrf-token": JSON.parse(value[2])
-      };
-      registerPatient(headers, payload)
-        .then(responseData => {
-          // console.log("Add Patient API Response: ", responseData);
-          if (responseJson.code == 0) {
-            this.displayAlert(
-              "success",
-              "Success",
-              "User registered successfully!!"
-            );
-          } else {
-            this.displayAlert("failed", "Failed", "Failed to register user!!");
-          }
-          //console.log(responseJson);
-          this.setState({ isLoading: false });
-        })
-        .catch(error => {
-          // console.log("Add Patient Response Error: ", error);
-          this.displayAlert("Network Error", appMessages.networkErr);
-          this.setState({ isLoading: false });
-        });
-    });
+    loggedInUserPromise
+      .then(value => {
+        let headers = {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "auth-api-key": JSON.parse(value[1]),
+          "x-csrf-token": JSON.parse(value[2])
+        };
+        payload["addedBy"] = JSON.parse(value[3]).practiceId;
+        console.log("Add Patient API Payload: ", payload);
+        registerPatient(headers, payload)
+          .then(responseJson => {
+            console.log("Add Patient API Response: ", responseJson);
+            if (responseJson.code == 0) {
+              this.displayAlert(
+                "success",
+                "Success",
+                "Patient registered successfully!!"
+              );
+            } else {
+              this.displayAlert(
+                "failed",
+                "Failed",
+                "Failed to register user!!"
+              );
+            }
+            //console.log(responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch(error => {
+            // console.log("Add Patient Response Error: ", error);
+            this.displayAlert("Network Error", appMessages.networkErr);
+            this.setState({ isLoading: false });
+          });
+      })
+      .catch(error => {
+        // console.log("Add Patient Response Error: ", error);
+        this.displayAlert("Network Error", appMessages.networkErr);
+        this.setState({ isLoading: false });
+      });
   }
 
   _onClickGender(data) {
@@ -223,9 +235,6 @@ export default class AddPatientScreen extends Component {
             style={styles.input}
             placeholder="City"
             returnKeyLabel={"next"}
-            onSubmitEditing={event => {
-              this.refs.password.focus();
-            }}
             onChangeText={text => this.setState({ city: text })}
           />
         </View>
@@ -263,7 +272,7 @@ export default class AddPatientScreen extends Component {
             onPress={this._onClickSave}
             activeOpacity={1}
           >
-            <Text style={styles.text}>SAVE</Text>
+            <Text style={styles.text}>PROCEED</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

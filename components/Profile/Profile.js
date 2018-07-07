@@ -9,7 +9,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Alert
+  Alert,
+  Keyboard
 } from "react-native";
 import arrowDwnIcon from "../../Images/arrow-down.png";
 import arrowUpIcon from "../../Images/arrow-up.png";
@@ -70,6 +71,7 @@ export default class ProfileScreen extends React.Component {
     if (!this.state.oldPassword || !this.state.newPassword) {
       return;
     }
+    Keyboard.dismiss();
     this.setState({ isLoading: true });
     let loggedInUserIdPromise = storageServices.readMultiple([
       "loggedInUserId",
@@ -174,7 +176,7 @@ export default class ProfileScreen extends React.Component {
             <View style={styles.ipWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Old Password"
+                placeholder="Current Password"
                 returnKeyLabel={"Next"}
                 onSubmitEditing={event => {
                   this.refs.newPass.focus();

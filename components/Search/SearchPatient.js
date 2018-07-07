@@ -102,7 +102,7 @@ export default class SearchPatient extends Component {
                 </View>
               </TouchableOpacity>
             )}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => index.toString()}
           />
         </ScrollView>
       </View>

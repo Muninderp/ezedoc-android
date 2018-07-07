@@ -251,6 +251,8 @@ export default class MyReports extends Component {
                       <Text>Attachment(s): </Text>
                       {item.documentUrl != null ? (
                         item.documentUrl.map((_, index) => {
+                          let a = _.split("/");
+                          let name = a[a.length - 1];
                           return (
                             <Text
                               style={styles.dtlValue}
@@ -261,7 +263,7 @@ export default class MyReports extends Component {
                             >
                               {index + 1}
                               {". "}
-                              {"Attachment"}
+                              {name}
                             </Text>
                           );
                         })

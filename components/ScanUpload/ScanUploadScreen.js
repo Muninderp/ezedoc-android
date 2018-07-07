@@ -160,7 +160,7 @@ export default class ScanUploadScreen extends React.Component {
           this.state.attachments.push({
             id: this.state.consultation + "_" + new Date().getTime(),
             name: response.fileName,
-            data: response.path,
+            data: response.uri,
             type: response.type
           });
           this.setState({ displayAttachments: true });
@@ -325,7 +325,7 @@ export default class ScanUploadScreen extends React.Component {
                   ", " +
                   prop.patient.age +
                   ", " +
-                  prop.patient.gender.charAt(0).toUpperCase()
+                  prop.patient.mobileNumber
                 }
                 value={prop.consultationId}
                 key={key}

@@ -45,11 +45,6 @@ export default class DoctorScreen extends Component {
   }
 
   componentDidMount() {
-    console.log("--componentDidMount called--");
-    console.log(
-      "--this.props.navigation.state.params--",
-      this.props.navigation.state.params
-    );
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
     webRTCServices.getLocalStream(this.state.isFront, stream => {
       this.setState({

@@ -114,7 +114,7 @@ export default class SignupScreen extends Component {
       !userId ||
       mobileNumber.length != 10 ||
       this.state.userRole == -1 ||
-      (this.state.userRole == "doc" && this.state.specialization == -1)
+      (this.state.userRole == "doctor" && this.state.specialization == -1)
     ) {
       this.displayAlert(
         "failed",
@@ -141,8 +141,11 @@ export default class SignupScreen extends Component {
       userType: this.state.userRole,
       practiceId: userId,
       notificationId: token,
-      specialization: this.state.specialization,
-      age: 10,
+      specialization:
+        this.state.userRole == "healthWorker"
+          ? "HEALTH_WORKER"
+          : this.state.specialization,
+      age: 10, // Not defined on UI
       gender: "M"
     };
 
@@ -185,7 +188,7 @@ export default class SignupScreen extends Component {
         >
           <TextInput
             style={styles.input}
-            placeholder="User Id"
+            placeholder="Registration Number"
             returnKeyLabel={"Next"}
             onSubmitEditing={event => {
               this.refs.firstName.focus();
@@ -256,36 +259,6 @@ export default class SignupScreen extends Component {
             onChangeText={text => this.setState({ mobileNumber: text })}
           />
         </View>
-        {/* <View style={styles.roleView}>
-          <Text style={styles.roleTextHeader}>Select Role: </Text>
-          <TouchableOpacity
-            onPress={() => this.onClickUserRole("healthworker")}
-          >
-            <View
-              style={{ flexDirection: "row", marginBottom: 5, marginTop: 5 }}
-            >
-              <View style={styles.radioOuter}>
-                {this.state.userRole === "healthworker" ? (
-                  <View style={styles.radioInner} />
-                ) : null}
-              </View>
-              <Text style={styles.radioLabel}>Health Worker</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.onClickUserRole("doctor")}>
-            <View
-              style={{ flexDirection: "row", marginBottom: 5, marginTop: 5 }}
-            >
-              <View style={styles.radioOuter}>
-                {this.state.userRole === "doctor" ? (
-                  <View style={styles.radioInner} />
-                ) : null}
-              </View>
-              <Text style={styles.radioLabel}>Doctor</Text>
-            </View>
-          </TouchableOpacity>
-        </View> */}
-
         <Picker
           style={[styles.input, styles.rolesPicker]}
           selectedValue={this.state.userRole}
@@ -294,22 +267,22 @@ export default class SignupScreen extends Component {
           }
         >
           <Picker.Item label="Select Role" value="-1" />
-          <Picker.Item label="Health Worker" value="hw" />
-          <Picker.Item label="Doctor" value="doc" />
+          <Picker.Item label="Health Worker" value="healthWorker" />
+          <Picker.Item label="Doctor" value="doctor" />
         </Picker>
         <Picker
-          enabled={this.state.userRole == "hw" ? false : true}
+          enabled={this.state.userRole == "healthWorker" ? false : true}
           style={[
             styles.input,
             styles.specialityPicker,
-            this.state.userRole == "hw" ? styles.disabledPicker : null
+            this.state.userRole == "healthWorker" ? styles.disabledPicker : null
           ]}
           selectedValue={this.state.specialization}
           onValueChange={(itemValue, itemIndex) =>
             this.setState({ specialization: itemValue })
           }
         >
-          <Picker.Item label="Select Speciality" value="-1" />
+          <Picker.Item label="Select Specialty" value="-1" />
           <Picker.Item label="General" value="GENERAL" />
           <Picker.Item label="Internal Medicine" value="INTERNAL_MEDICINE" />
           <Picker.Item label="Dental Care" value="DENTAL_CARE" />
@@ -328,7 +301,7 @@ export default class SignupScreen extends Component {
             onPress={this._onClickSave}
             activeOpacity={1}
           >
-            <Text style={styles.text}>SAVE</Text>
+            <Text style={styles.text}>PROCEED</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

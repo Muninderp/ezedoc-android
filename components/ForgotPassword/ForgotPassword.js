@@ -93,10 +93,9 @@ export default class ForgotPasswordScreen extends Component {
       emailId: email,
       practiceId: userId
     };
-
+    console.log("Forgot Password API Payload: ", payload);
     forgotPassword(payload)
       .then(responseData => {
-        console.log("Forgot Password API Payload: ", payload);
         console.log("Forgot Password API Response: ", responseData);
         if (responseData.code == 0) {
           this.displayAlert(

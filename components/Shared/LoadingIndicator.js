@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, ActivityIndicator } from "react-native";
 import { appThemeColor } from "../../AppGlobalConfig";
 const DEVICE_WIDTH = Dimensions.get("window").width;
@@ -9,7 +9,7 @@ export default class LoadingIndicator extends Component {
       <View
         style={{
           width: DEVICE_WIDTH,
-          height: DEVICE_HEIGHT - 80,
+          height: DEVICE_HEIGHT - 50,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",

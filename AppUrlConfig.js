@@ -8,7 +8,7 @@ export var URL_CONFIG = {
   UPDATE_NOTIFICATION_ID: "/users/updateNotificationId",
   GET_USER_NOTIFICATION_ID: "/users/updateNotificationId",
   SEND_NOTIFICATION_TO_DEVICE: "https://fcm.googleapis.com/fcm/send",
-  LEGACY_SERVER_KEY: "AIzaSyBzCWYCJVxySLEECioJvPjZmJA9kr3Zar0", // Get this key from the Project settings > Cloud messaging tab
+  LEGACY_SERVER_KEY: "AIzaSyAe1ivxZSCDFm5DwxItqBeZuVq0UK_ZYso", // Get this key from the Project settings > Cloud messaging tab
   GET_ACTIVE_CONSULTATIONS:
     "/users/getConsultationDetailsForUser/?mobileNumber=",
   CREATE_CONSULTATION: "/users/createConsultation",

@@ -164,7 +164,7 @@ export function uploadAttachments(headers, data) {
 export function forgotPassword(data) {
   return fetch(URL_CONFIG.BASE_URL + URL_CONFIG.FORGOT_PASSWORD, {
     method: "POST",
-    body: data
+    body: JSON.stringify(data)
   })
     .then(response => response.json())
     .then(responseJson => {

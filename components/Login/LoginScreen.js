@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import Logo from "../Login/Logo";
 import LoadingIndicator from "../Shared/LoadingIndicator";
 import {
@@ -121,7 +121,7 @@ export default class LoginScreen extends Component {
           <Image source={usernameImg} style={styles.inlineImg} />
           <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder="Mobile / Email"
             returnKeyLabel={"next"}
             underlineColorAndroid="rgba(0,0,0,0)"
             onSubmitEditing={event => {

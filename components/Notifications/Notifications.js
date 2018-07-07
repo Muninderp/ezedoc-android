@@ -64,7 +64,15 @@ export default class NotificationScreen extends Component {
         getNotifications(headers, JSON.parse(value[0]))
           .then(responseData => {
             console.log("getNotifications API Response: ", responseData);
-            this.setState({ consultationsInfo: responseData.data });
+            let tempData = responseData.data.filter(element => {
+              if (element.notificationFlag && element.notificationFlag == "Y") {
+                return element;
+              }
+            });
+
+            this.setState({
+              consultationsInfo: JSON.parse(JSON.stringify(tempData))
+            });
             this.setState({ isLoading: false });
           })
           .catch(error => {

@@ -47,8 +47,8 @@ export default class OutgoingCallScreen extends Component {
     };
     this.handleBackButton = this.handleBackButton.bind(this);
     this.handleCallEndClick = this.handleCallEndClick.bind(this);
-    this.handleCameraSwitch = this.handleCameraSwitch.bind(this);
-    this.handleMuteMicrophoneClick = this.handleMuteMicrophoneClick.bind(this);
+    // this.handleCameraSwitch = this.handleCameraSwitch.bind(this);
+    // this.handleMuteMicrophoneClick = this.handleMuteMicrophoneClick.bind(this);
     this.handleCallReject = this.handleCallReject.bind(this);
   }
 
@@ -74,12 +74,14 @@ export default class OutgoingCallScreen extends Component {
               name: JSON.parse(_[1])
             }
           };
-          // console.log("Data in Notification: ", payload);
+          console.log("Data in Notification: ", payload);
           sendNotificationViaFCM(
             this.state.userSelectedForCall.fcmToken,
             payload
           )
-            .then(_ => {})
+            .then(_ => {
+              console.log("sendNotificationViaFCM Response API: ", _);
+            })
             .catch(error => {
               console.log(
                 "Error while sending the notification to user called: ",
@@ -114,7 +116,7 @@ export default class OutgoingCallScreen extends Component {
   }
 
   handleBackButton() {
-    this.props.navigation.navigate("drawerStack");
+    // this.props.navigation.navigate("drawerStack");
     return true;
   }
 
@@ -194,14 +196,14 @@ export default class OutgoingCallScreen extends Component {
     this.resetState();
   }
 
-  handleMuteMicrophoneClick() {
-    this.setState({ callMuted: !this.state.callMuted });
-    InCallManager.setMicrophoneMute(this.state.callMuted);
-  }
+  // handleMuteMicrophoneClick() {
+  //   this.setState({ callMuted: !this.state.callMuted });
+  //   InCallManager.setMicrophoneMute(this.state.callMuted);
+  // }
 
-  handleCameraSwitch() {
-    this.setState({ isFront: !this.state.isFront });
-  }
+  // handleCameraSwitch() {
+  //   this.setState({ isFront: !this.state.isFront });
+  // }
 
   resetState() {
     this.setState({ streams: [] });
@@ -297,7 +299,7 @@ export default class OutgoingCallScreen extends Component {
 
         {this.state.joinState == "joined" && this.state.callAccepted ? (
           <View style={styles.actionBtnContainer}>
-            <TouchableHighlight
+            {/* <TouchableHighlight
               style={styles.iconsView}
               onPress={this.handleMuteMicrophoneClick.bind(this)}
             >
@@ -306,19 +308,19 @@ export default class OutgoingCallScreen extends Component {
               ) : (
                 <Image source={muteOnIcon} style={styles.actionIcon} />
               )}
-            </TouchableHighlight>
+            </TouchableHighlight> */}
             <TouchableHighlight
               style={[styles.iconsView, styles.callEndIcon]}
               onPress={this.handleCallEndClick.bind(this)}
             >
               <Image source={callEndIcon} style={styles.actionIcon} />
             </TouchableHighlight>
-            <TouchableHighlight
+            {/* <TouchableHighlight
               style={styles.iconsView}
               onPress={this.handleCameraSwitch.bind(this)}
             >
               <Image source={cameraIcon} style={styles.actionIcon} />
-            </TouchableHighlight>
+            </TouchableHighlight> */}
           </View>
         ) : null}
       </View>

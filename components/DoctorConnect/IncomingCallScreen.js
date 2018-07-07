@@ -48,8 +48,8 @@ export default class IncomingCallScreen extends Component {
 
     this.handleBackButton = this.handleBackButton.bind(this);
     this.handleCallEndClick = this.handleCallEndClick.bind(this);
-    this.handleCameraSwitch = this.handleCameraSwitch.bind(this);
-    this.handleMuteMicrophoneClick = this.handleMuteMicrophoneClick.bind(this);
+    // this.handleCameraSwitch = this.handleCameraSwitch.bind(this);
+    // this.handleMuteMicrophoneClick = this.handleMuteMicrophoneClick.bind(this);
     this.handleCallReject = this.handleCallReject.bind(this);
   }
 
@@ -59,6 +59,9 @@ export default class IncomingCallScreen extends Component {
       this.handleBackButton();
       return;
     }
+    InCallManager.setSpeakerphoneOn(true);
+    InCallManager.setForceSpeakerphoneOn(true);
+    InCallManager.setKeepScreenOn(true);
     this.setState({
       notificationData: JSON.parse(
         this.props.navigation.state.params.notificationData
@@ -90,11 +93,14 @@ export default class IncomingCallScreen extends Component {
   }
 
   componentWillUnmount() {
+    InCallManager.setForceSpeakerphoneOn(false);
+    InCallManager.setKeepScreenOn(false);
+    InCallManager.setSpeakerphoneOn(false);
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.navigate("drawerStack");
+    // this.props.navigation.navigate("drawerStack");
     return true;
   }
 
@@ -188,7 +194,7 @@ export default class IncomingCallScreen extends Component {
 
         {this.state.joinState == "joined" && this.state.callAccepted ? (
           <View style={styles.actionBtnContainer}>
-            <TouchableHighlight
+            {/* <TouchableHighlight
               style={styles.iconsView}
               onPress={this.handleMuteMicrophoneClick.bind(this)}
             >
@@ -197,19 +203,19 @@ export default class IncomingCallScreen extends Component {
               ) : (
                 <Image source={muteOnIcon} style={styles.actionIcon} />
               )}
-            </TouchableHighlight>
+            </TouchableHighlight> */}
             <TouchableHighlight
               style={[styles.iconsView, styles.callEndIcon]}
               onPress={this.handleCallEndClick.bind(this)}
             >
               <Image source={callEndIcon} style={styles.actionIcon} />
             </TouchableHighlight>
-            <TouchableHighlight
+            {/* <TouchableHighlight
               style={styles.iconsView}
               onPress={this.handleCameraSwitch.bind(this)}
             >
               <Image source={cameraIcon} style={styles.actionIcon} />
-            </TouchableHighlight>
+            </TouchableHighlight> */}
           </View>
         ) : null}
       </View>
@@ -316,30 +322,31 @@ export default class IncomingCallScreen extends Component {
   }
 
   handleMuteMicrophoneClick() {
-    this.setState({ callMuted: !this.state.callMuted });
-    InCallManager.setMicrophoneMute(this.state.callMuted);
+    // this.setState({ callMuted: !this.state.callMuted });
+    // InCallManager.setMicrophoneMute(this.state.callMuted);
   }
 
-  handleCameraSwitch() {
-    this.setState({ isFront: !this.state.isFront });
-    //console.log("handleCameraSwitch method: ", this.state);
-    // webRTCServices.getLocalStream(this.state.isFront, stream => {
-    //   this.setState({
-    //     activeStreamId: SELF_STREAM_ID,
-    //     streams: [
-    //       {
-    //         id: SELF_STREAM_ID,
-    //         url: stream.toURL()
-    //       }
-    //     ]
-    //   });
-    // });
-  }
+  // handleCameraSwitch() {
+  // this.setState({ isFront: !this.state.isFront });
+  //console.log("handleCameraSwitch method: ", this.state);
+  // webRTCServices.getLocalStream(this.state.isFront, stream => {
+  //   this.setState({
+  //     activeStreamId: SELF_STREAM_ID,
+  //     streams: [
+  //       {
+  //         id: SELF_STREAM_ID,
+  //         url: stream.toURL()
+  //       }
+  //     ]
+  //   });
+  // });
+  // }
 
   resetState() {
     this.setState({ streams: [] });
     InCallManager.setForceSpeakerphoneOn(false);
     InCallManager.setKeepScreenOn(false);
+    InCallManager.setSpeakerphoneOn(false);
     this.props.navigation.navigate("drawerStack");
   }
 

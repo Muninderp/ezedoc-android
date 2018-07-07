@@ -23,10 +23,8 @@ if (IS_BROWSER) {
 
 let socket = null;
 let onFriendLeftCallback = null;
-let onCountFriendsCallback = null;
 let onFriendConnectedCallback = null;
 let onDataChannelMessageCallback = null;
-let onEndCall = null;
 
 if (IS_BROWSER) {
   socket = io();
@@ -230,23 +228,10 @@ function logError(error) {
 function countFriends(roomId, callback) {
   socket.emit("count", roomId, count => {
     console.log("Count friends result: roomId, count ", roomId, count);
-    console.log('callback in countFriends: ', callback);
+    console.log("callback in countFriends: ", callback);
     callback.friendsCount(count);
   });
 }
-
-// function loadLocalStream2(muted) {
-//   navigator.getUserMedia(
-//     { audio: true, video: true },
-//     function(stream) {
-//       localStream = stream;
-//       var selfView = document.getElementById("selfView");
-//       selfView.src = URL.createObjectURL(stream);
-//       selfView.muted = muted;
-//     },
-//     logError
-//   );
-// }
 
 function getLocalStream(isFront, callback) {
   WebRTC.MediaStreamTrack.getSources(sourceInfos => {

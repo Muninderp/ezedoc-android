@@ -12,7 +12,7 @@ import {
   Dimensions
 } from "react-native";
 import { appThemeColor } from "../../AppGlobalConfig";
-import videoCallIcon from "../../Images/make-call.png";
+import videoCallIcon from "../../Images/send-message.png";
 import LoadingIndicator from "../Shared/LoadingIndicator";
 import { getUserConsultations } from "../../AppGlobalAPIs";
 import { getAllPatientsList } from "../../AppGlobalAPIs";
@@ -58,7 +58,9 @@ export default class DoctorSearchScreen extends Component {
   }
 
   handleBackButton() {
-    this.setState({ displayConsultationModal: false });
+    this.setState({
+      displayConsultationModal: JSON.parse(JSON.stringify(false))
+    });
     this.props.navigation.navigate("specializationscreen");
     return true;
   }
@@ -98,8 +100,8 @@ export default class DoctorSearchScreen extends Component {
     getAllPatientsList(headers)
       .then(responseData => {
         console.log("getAllPatientsInfo API Response: ", responseData);
-        this.filterPatientsList(responseData);
-        this.setState({ allPatientsData: responseData });
+        let a = this.filterPatientsList(responseData);
+        this.setState({ allPatientsData: JSON.parse(JSON.stringify(a)) });
         this.setState({ isLoading: false });
       })
       .catch(error => {
@@ -107,9 +109,16 @@ export default class DoctorSearchScreen extends Component {
       });
   }
 
-  filterPatientsList(data) {
-    // let filteredPatients= data.filter();
-    // Filter the data here to remove the dupes 
+  filterPatientsList(myArray) {
+    let toRemove = this.state.consultationsData;
+    for (var i = myArray.length - 1; i >= 0; i--) {
+      for (var j = 0; j < toRemove.length; j++) {
+        if (myArray[i] && myArray[i].id === toRemove[j].patientId) {
+          myArray.splice(i, 1);
+        }
+      }
+    }
+    return myArray;
   }
 
   onClickConsultationHeaders(value) {
@@ -205,7 +214,7 @@ export default class DoctorSearchScreen extends Component {
           };
           if (flag == 2) {
             let payload = {
-              doctorId: this.state.docSelectedForCall.id,
+              doctorId: this.state.docSelectedForCall.practiceId,
               patientId: this.state.allPatientsData[
                 this.state.allPatientsData.findIndex(_ => _.selected == true)
               ]["id"],
@@ -226,7 +235,8 @@ export default class DoctorSearchScreen extends Component {
             let payload = {
               consultationId: this.state.consultationsData[
                 this.state.consultationsData.findIndex(_ => _.selected == true)
-              ]["consultationId"]
+              ]["consultationId"],
+              notificationFlag: "Y"
             };
             console.log("updateConsultation Payload: ", payload);
             updateConsultation(headers, payload)
@@ -249,11 +259,11 @@ export default class DoctorSearchScreen extends Component {
   }
 
   proceedToCall() {
+    this.setState({ displayConsultationModal: false });
     console.log("docSelectedForCall: ", this.state.docSelectedForCall);
     this.props.navigation.navigate("outgoingcallscreen", {
       userSelected: JSON.stringify(this.state.docSelectedForCall)
     });
-    this.setState({ displayConsultationModal: false });
   }
 
   onClickSearchBtn() {
